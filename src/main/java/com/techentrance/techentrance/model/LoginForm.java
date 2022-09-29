@@ -1,4 +1,4 @@
-package com.techentrance.techentrance.login;
+package com.techentrance.techentrance.model;
 
 public class LoginForm {
     private String user;

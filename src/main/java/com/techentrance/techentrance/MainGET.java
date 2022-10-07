@@ -21,9 +21,19 @@ import java.net.HttpURLConnection;
 
 
 public class MainGET {
-
+//https://arbeitnow.com/api/job-board-api
     public static void main(String[] args) {
         try {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("text/plain");
+            RequestBody body = RequestBody.create(mediaType, "");
+            Request request = new Request.Builder()
+                    .url("https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&location=Fairfax%2C%20VA&page=1&descending=false")  //https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&page=1&descending=false
+                    .method("GET", null)
+                    .build();
+            Response response = client.newCall(request).execute();
+            /**
             OkHttpClient client = new OkHttpClient();
 
             MediaType mediaType = MediaType.parse("application/json");
@@ -37,19 +47,23 @@ public class MainGET {
                     .addHeader("X-RapidAPI-Host", "linkedin-jobs-search.p.rapidapi.com")
                     .build();
 
-            Response response = client.newCall(request).execute();
+            Response response = client.newCall(request).execute();**/
             if(response.code() != 200)
             {
                 System.out.println("bad request");
             }
             else{
-                response.body().;
+
                 String jsonData = response.body().string();
-                jsonData = jsonData.substring(1, jsonData.length() - 1);
+                //jsonData = jsonData.substring(1, jsonData.length() - 1);
                 JSONObject Jobject = new JSONObject(jsonData);
-                //JSONArray Jarray = Jobject.getJSONArray("job_url");
-                JSONParser parse = new JSONParser();
-                JSONObject data_obj = (JSONObject) parse.parse(jsonData);
+                JSONArray arr = Jobject.getJSONArray("results");
+                for (int i = 0; i < arr.length(); i++) {
+
+                    JSONObject new_obj = (JSONObject) arr.get(i);
+                    System.out.println(new_obj.get("refs"));
+                }
+                //JSONObject data_obj = (JSONObject) parse.parse(jsonData);
 
 
                 //for (int i = 0; i < Jarray.length(); i++) {

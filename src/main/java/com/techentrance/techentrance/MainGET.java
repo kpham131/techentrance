@@ -10,7 +10,7 @@ import okhttp3.*;
 import org.json.simple.parser.JSONParser;
 import org.json.JSONObject;
 import org.json.JSONArray;
-import com.careerjet.webservice.api.Client;
+//import com.careerjet.webservice.api.Client;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 
 import javax.servlet.http.HttpServletRequest;

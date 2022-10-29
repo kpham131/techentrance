@@ -1,14 +1,18 @@
 package com.techentrance.techentrance.model;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity(name = "jobs")
 public class Jobs {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int jobId;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "jobid", updatable = false, nullable = false, columnDefinition = "VARCHAR(100)")
+    @Type(type = "uuid-char")
+    private UUID jobId;
 
     private String contents;
 
@@ -20,24 +24,29 @@ public class Jobs {
 
     private String companyName;
 
+    @Column(name = "session_id", updatable = true, nullable = true, columnDefinition = "VARCHAR(100)")
+    @Type(type = "uuid-char")
+    private UUID sessionId;
+
     public Jobs() {
 
     }
 
-    public Jobs(int jobId, String contents, String name, String location, String jobType, String companyName) {
+    public Jobs(UUID jobId, String contents, String name, String location, String jobType, String companyName, UUID sessionId) {
         this.jobId = jobId;
         this.contents = contents;
         this.name = name;
         this.location = location;
         this.jobType = jobType;
         this.companyName = companyName;
+        this.sessionId = sessionId;
     }
 
-    public int getJobId() {
+    public UUID getJobId() {
         return jobId;
     }
 
-    public void setJobId(int jobId) {
+    public void setJobId(UUID jobId) {
         this.jobId = jobId;
     }
 
@@ -79,5 +88,13 @@ public class Jobs {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(UUID sessionId) {
+        this.sessionId = sessionId;
     }
 }

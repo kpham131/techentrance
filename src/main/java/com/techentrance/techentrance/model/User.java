@@ -1,19 +1,28 @@
 package com.techentrance.techentrance.model;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", updatable = false, nullable = false, columnDefinition = "VARCHAR(100)")
+    @Type(type = "uuid-char")
+    private UUID id;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String email;
     private String password;
+
+
+    @Column(name = "session_id", updatable = true, nullable = true, columnDefinition = "VARCHAR(100)")
+    @Type(type = "uuid-char")
+    private UUID sessionId;
 
 
     public User() {}
@@ -23,7 +32,7 @@ public class User {
         this.password = password;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -66,4 +75,13 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(UUID sessionId) {
+        this.sessionId = sessionId;
+    }
+
 }

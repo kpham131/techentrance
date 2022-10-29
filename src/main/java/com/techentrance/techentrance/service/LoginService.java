@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class LoginService {
     private final UserRepository userRepository;
@@ -16,5 +18,8 @@ public class LoginService {
     }
     public User getUser(String email) {
         return userRepository.findByEmail(email);
+    }
+    public User getUserBySessionId(UUID sessionId) {
+        return userRepository.findBySessionId(sessionId);
     }
 }

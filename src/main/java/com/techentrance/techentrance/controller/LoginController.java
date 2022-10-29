@@ -2,21 +2,25 @@ package com.techentrance.techentrance.controller;
 
 
 import com.techentrance.techentrance.model.User;
-import com.techentrance.techentrance.repo.UserRepository;
+import com.techentrance.techentrance.security.Security;
 import com.techentrance.techentrance.service.LoginService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.UUID;
 
 
 @Controller @RequiredArgsConstructor
-public class FormController {
+public class LoginController {
     private final LoginService loginService;
+    private final Security security;
 
     @GetMapping("/login")
     public String loginView() {
@@ -24,19 +28,19 @@ public class FormController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model) {
-        // get the user
+    public String login(HttpServletResponse response, @ModelAttribute User user, Model model) {
 
-        User foundUser = loginService.getUser(user.getEmail());
-        if(foundUser==null) {
-            return loginView();
-        }
         // validate
-        if(foundUser.getPassword().equals(user.getPassword())) {
+        UUID sessionId = security.authenticate(user);
+        if(sessionId==null){
+            return "redirect:/login";
+        }
+        else{
+            Cookie cookie = new Cookie("SessionId", sessionId.toString());
+            cookie.setMaxAge(10);
+            response.addCookie(cookie);
             return "redirect:/";
         }
-
-        return loginView();
     }
 
     @GetMapping("/signup")
@@ -45,7 +49,7 @@ public class FormController {
     }
 
     @PostMapping("/signup")
-    public String userRegistration(@ModelAttribute User user, Model model) {
+    public String userRegistration(HttpServletResponse response, @ModelAttribute User user, Model model) {
         // validate if user exists
         User foundUser = loginService.getUser(user.getEmail());
         if(foundUser!=null) {
@@ -54,11 +58,14 @@ public class FormController {
         }
 
         // add to model to send to front end
-        model.addAttribute("firstName", user.getFirstName());
-        model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("phoneNumber", user.getPhoneNumber());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("password", user.getPassword());
+        model.addAttribute("user", user);
+
+        UUID sessionId = UUID.randomUUID();
+        user.setSessionId(sessionId);
+        Cookie cookie = new Cookie("SessionId", sessionId.toString());
+        cookie.setMaxAge(3600);
+        response.addCookie(cookie);
+
         loginService.saveUser(user);
         return "result";
     }

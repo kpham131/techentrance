@@ -16,7 +16,7 @@ public class HomeController {
     public String home(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = security.validateSession(request);
         if(cookie==null){
-            return "error";
+            return "redirect:/login";
         }
         response.addCookie(cookie);
         return "index";

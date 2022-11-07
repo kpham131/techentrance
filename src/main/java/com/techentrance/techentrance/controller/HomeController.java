@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller @RequiredArgsConstructor
 public class HomeController {
     private final Security security;
+
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = security.validateSession(request);
@@ -20,7 +21,5 @@ public class HomeController {
         }
         response.addCookie(cookie);
         return "index";
-
-
     }
 }

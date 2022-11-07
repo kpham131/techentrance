@@ -81,6 +81,6 @@ public class LoginController {
         response.addCookie(cookie);
 
         userService.saveUser(user);
-        return "result";
+        return "redirect:/users/"+ user.getId() + "/personalInfo";
     }
 }

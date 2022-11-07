@@ -8,6 +8,7 @@ class TechentranceApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 	}
 
 }

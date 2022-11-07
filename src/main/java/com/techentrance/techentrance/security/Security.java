@@ -1,7 +1,7 @@
 package com.techentrance.techentrance.security;
 
 import com.techentrance.techentrance.model.User;
-import com.techentrance.techentrance.service.LoginService;
+import com.techentrance.techentrance.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,17 +12,17 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class Security {
-    private final LoginService loginService;
+    private final UserService userService;
 
     public UUID authenticate(User user) {
-        User foundUser = loginService.getUser(user.getEmail());
+        User foundUser = userService.getUserByEmail(user.getEmail());
         if(foundUser==null) {
             return null;
         }
         if(foundUser.getPassword().equals(user.getPassword())) {
             UUID sessionId = UUID.randomUUID();
             foundUser.setSessionId(sessionId);
-            loginService.saveUser(foundUser);
+            userService.saveUser(foundUser);
             return sessionId;
         }
         return null;
@@ -46,7 +46,7 @@ public class Security {
     }
 
     public boolean validSession(UUID sessionId) {
-        User foundUser = loginService.getUserBySessionId(sessionId);
+        User foundUser = userService.getUserBySessionId(sessionId);
         if(foundUser==null) {
             return false;
         }

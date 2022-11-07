@@ -11,15 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 @Service @RequiredArgsConstructor @Transactional @Slf4j
-public class LoginService {
+public class UserService {
     private final UserRepository userRepository;
     public User saveUser(User user) {
         return userRepository.save(user);
     }
-    public User getUser(String email) {
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
     public User getUserBySessionId(UUID sessionId) {
         return userRepository.findBySessionId(sessionId);
+    }
+    public User getUserById(UUID id) {
+        return userRepository.findById(id);
     }
 }

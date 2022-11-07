@@ -12,15 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 @Controller @RequiredArgsConstructor
 public class HomeController {
     private final Security security;
+
     @GetMapping("/")
     public String home(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = security.validateSession(request);
         if(cookie==null){
-            return "error";
+            return "redirect:/login";
         }
         response.addCookie(cookie);
         return "index";
-
-
     }
 }

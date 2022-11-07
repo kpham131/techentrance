@@ -16,6 +16,9 @@ public class User {
     private String firstName;
     private String lastName;
     private String phoneNumber;
+    private String gpa;
+    private String city;
+    private String state;
     private String email;
     private String password;
 
@@ -83,5 +86,31 @@ public class User {
     public void setSessionId(UUID sessionId) {
         this.sessionId = sessionId;
     }
+
+
+    public String getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(String gpa) {
+        this.gpa = gpa;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
 
 }

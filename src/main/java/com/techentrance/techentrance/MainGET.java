@@ -21,7 +21,9 @@ public class MainGET {
 
     public static List<ApiObject> getList() {
         List<String> tokens = new ArrayList<String>();
+        tokens.add("Python");
         tokens.add("Java");
+        tokens.add("C++");
         String patternString = ".*\\b(" + String.join("|", tokens) + ")\\b.*";
         Pattern pattern = Pattern.compile(patternString);
 
@@ -34,7 +36,7 @@ public class MainGET {
                 RequestBody body = RequestBody.create(mediaType, "");
                 String sampleUrl = "https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&location=USA&page="+count+"&descending=false";
                 Request request = new Request.Builder()
-                        .url("https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&location=USA&page=1&descending=false")  //https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&page=1&descending=false
+                        .url(sampleUrl)  //https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&page=1&descending=false
                         .method("GET", null)
                         .build();
                 Response response = client.newCall(request).execute();

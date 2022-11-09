@@ -33,9 +33,7 @@ public class LoginController {
         }
 
         String redirect = Utils.getCookie(request, "redirectURL");
-        if (redirect!=null) {
-            response.addCookie(new Cookie("redirectURL", redirect));
-        }
+
         return "login";
     }
 

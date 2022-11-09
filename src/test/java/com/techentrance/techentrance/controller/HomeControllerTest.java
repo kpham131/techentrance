@@ -4,12 +4,14 @@ package com.techentrance.techentrance.controller;
 import com.techentrance.techentrance.security.Security;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +36,7 @@ public class HomeControllerTest {
     @Test
     public void home_cookie_not_null() {
         // Arrange
-        when(securityMock.validateSession(any())).thenReturn(new Cookie("test", "testValue"));
+        when(securityMock.validateSession(Matchers.any())).thenReturn(new Cookie("test", "testValue"));
 
         // ACT
         String response = homeController.home(null, httpServletResponseMock);
@@ -47,7 +49,7 @@ public class HomeControllerTest {
     @Test
     public void home_cookie_is_null() {
         // Arrange
-        when(securityMock.validateSession(any())).thenReturn(null);
+        when(securityMock.validateSession(Matchers.any())).thenReturn(null);
 
         // ACT
         String response = homeController.home(null, httpServletResponseMock);

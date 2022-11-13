@@ -34,7 +34,8 @@ public class Security {
             for (Cookie cookie : cookies){
                 if(cookie.getName().equals("SessionId")){
                     // validate sessionID
-                    if(validSession(UUID.fromString(cookie.getValue()))){
+
+                    if(!cookie.getValue().equals("null") && validSession(UUID.fromString(cookie.getValue()))){
                         cookie.setMaxAge(10);
                         return cookie;
                     }

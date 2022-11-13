@@ -14,9 +14,9 @@ add_more_fields.onclick = function () {
 
 remove_fields.onclick = function () {
   var input_tags = survey_options.getElementsByTagName('input');
-  if (input_tags.length > 2) {
+  // if (input_tags.length > 2) {
     survey_options.removeChild(input_tags[(input_tags.length) - 1]);
-  }
+  // }
 }
 
 save_and_return.onclick = function () {
@@ -48,7 +48,9 @@ save_and_return.onclick = function () {
   //   }
   // })
 
-  fetch("http://localhost:8080/users/userId/skills", {
+  var pathArray = window.location.pathname.split('/');
+  userId = pathArray[2]
+  fetch("http://localhost:8080/users/" + userId + "/skills", {
     method: 'post',
     body: JSON.stringify(skillArray),
     headers: {

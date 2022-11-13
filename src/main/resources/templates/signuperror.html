@@ -36,16 +36,11 @@
                 </svg> -->
                             <h3 class="card-title">TechEntrance</h3>
                             <form action="http://localhost:8080/signup" method="POST">
-                                <input type="text" name="firstName" id="" class="form-control my-4 py-2"
-                                    placeholder="First Name" />
-                                <input type="text" name="lastName" id="" class="form-control my-4 py-2"
-                                    placeholder="Last Name" />
-                                <input type="text" name="phoneNumber" id="" class="form-control my-4 py-2"
-                                    placeholder="Phone Number" />
-                                <input type="text" name="email" id="" class="form-control my-4 py-2"
-                                    placeholder="Email" />
-                                <input type="password" name="password" id="" class="form-control my-4 py-2"
-                                    placeholder="Password" />
+                                <input type="text" name="firstName" id="" class="form-control my-4 py-2" placeholder="First Name" required/>
+                                <input type="text" name="lastName" id="" class="form-control my-4 py-2" placeholder="Last Name" required/>
+                                <input type="text" pattern="[0-9]{10}" title="10-digit phone number. Example: 7039931000" name="phoneNumber" id="" class="form-control my-4 py-2" placeholder="Phone Number" required/>
+                                <input type="email" name="email" id="" class="form-control my-4 py-2" placeholder="Email" required/>
+                                <input type="password" name="password" id="" class="form-control my-4 py-2" placeholder="Password" required/>
 
                                 <div class="error">
                                     <p>An account with this email already exists</p>

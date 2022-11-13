@@ -29,7 +29,9 @@ public class LoginController {
         Cookie cookie = security.validateSession(request);
         if(cookie!=null){
             response.addCookie(cookie);
-            return "redirect:/";
+            UUID sessionId = UUID.fromString(cookie.getValue());
+            User foundUser = userService.getUserBySessionId(sessionId);
+            return "redirect:/users/"+foundUser.getId();
         }
 
         String redirect = Utils.getCookie(request, "redirectURL");
@@ -45,7 +47,8 @@ public class LoginController {
         // validate
         UUID sessionId = security.authenticate(user);
         if(sessionId==null){
-            return "redirect:/login";
+//            return "redirect:/login";
+            return "loginerror";
         }
         else{
             Cookie cookie = new Cookie("SessionId", sessionId.toString());
@@ -68,7 +71,8 @@ public class LoginController {
         User foundUser = userService.getUserByEmail(user.getEmail());
         if(foundUser!=null) {
             // go back to signup page and say user exists
-            return signUpView();
+//            return signUpView();
+            return "signuperror";
         }
 
         // add to model to send to front end
@@ -83,4 +87,13 @@ public class LoginController {
         userService.saveUser(user);
         return "redirect:/users/"+ user.getId() + "/personalInfo";
     }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        // check if user already logged in
+        response.addCookie(new Cookie("SessionId", "null"));
+        return "login";
+    }
+
 }

@@ -43,7 +43,10 @@ public class SecurityTest {
     private HttpServletRequest httpServletRequestMock;
 
     @Mock
-    private User userMock;
+    private User userMock1;
+
+    @Mock
+    private User userMock2;
 
     @Mock
     private Model modelMock;
@@ -59,23 +62,45 @@ public class SecurityTest {
     @Test
     public void authenticate_user_is_null() {
         when(userServiceMock.getUserByEmail(Matchers.any())).thenReturn(null);
-        Object response = security.authenticate(userMock);
+        Object response = security.authenticate(userMock1);
 
         assertNull(response);
     }
 
     @Test
     public void authenticate_password_found() {
-        User user = new User();
-        when(userServiceMock.getUserByEmail(Matchers.any())).thenReturn(user);
-        when(userMock.getPassword()).thenReturn("1");
-        when(userMock.getPassword()).thenReturn("1");
+        //User user = new User();
+        when(userServiceMock.getUserByEmail(Matchers.any())).thenReturn(userMock1);
+        when(userMock1.getPassword()).thenReturn("1");
+        when(userMock2.getPassword()).thenReturn("1");
 
-        Object response = security.authenticate(userMock);
+        Object response = security.authenticate(userMock2).toString();
+
+        assertNotNull(response);
+    }
+
+    @Test
+    public void authenticate_password_not_found() {
+        when(userServiceMock.getUserByEmail(Matchers.any())).thenReturn(userMock2);
+        when(userMock1.getPassword()).thenReturn("2");
+        when(userMock2.getPassword()).thenReturn("1");
+
+        Object response = security.authenticate(userMock1).toString();
 
         assertNull(response);
     }
 
     @Test
-    public void authenticate_password_not_found() {}
+    public void validSession_not_null() {
+        when(userServiceMock.getUserBySessionId(Matchers.any())).thenReturn(new User());
+        boolean response = security.validSession(UUID.randomUUID());
+        assertTrue(response);
+    }
+
+    @Test
+    public void validSession_null() {
+        when(userServiceMock.getUserBySessionId(Matchers.any())).thenReturn(null);
+        boolean response = security.validSession(UUID.randomUUID());
+        assertFalse(response);
+    }
 }

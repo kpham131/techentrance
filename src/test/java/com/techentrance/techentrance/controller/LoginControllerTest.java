@@ -91,15 +91,7 @@ public class LoginControllerTest {
     }
 
 
-    @Test
-    public void login_is_not_null() {
-        //assertEquals("test", Utils.getCookie(httpServletRequestMock, ""));
-        when(securityMock.authenticate(Matchers.any())).thenReturn(new UUID(0,0));
-        when(Utils.getCookie(httpServletRequestMock, "")).thenReturn(new String());
-        String response = loginController.login(httpServletRequestMock, httpServletResponseMock, userMock, modelMock);
 
-        assertEquals("redirect:/test", response);
-    }
 
 
     @Test

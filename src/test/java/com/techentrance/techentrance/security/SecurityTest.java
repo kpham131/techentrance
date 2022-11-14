@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
@@ -85,9 +86,27 @@ public class SecurityTest {
         when(userMock1.getPassword()).thenReturn("2");
         when(userMock2.getPassword()).thenReturn("1");
 
-        Object response = security.authenticate(userMock1).toString();
+        Object response = security.authenticate(userMock1);
 
         assertNull(response);
+    }
+
+    @Test
+    public void validateSession1_is_null() {
+        when(httpServletRequestMock.getCookies()).thenReturn(null);
+        Object response = security.validateSession(httpServletRequestMock);
+        assertNull(response);
+    }
+
+    @Test
+    public void validateSession1_is_not_null() {
+        Cookie cookie1 = new Cookie("Session", UUID.randomUUID().toString());
+        Cookie cookie2 = new Cookie("SessionId", UUID.randomUUID().toString());
+        Cookie[] arr = new Cookie[] {cookie1, cookie2};
+        when(httpServletRequestMock.getCookies()).thenReturn(arr);
+        when(userServiceMock.getUserBySessionId(Matchers.any())).thenReturn(new User());
+        Object response = security.validateSession(httpServletRequestMock);
+        assertNotNull(response);
     }
 
     @Test

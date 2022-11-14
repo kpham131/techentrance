@@ -49,9 +49,9 @@ public class LoginController {
             Cookie cookie = new Cookie("SessionId", sessionId.toString());
             cookie.setMaxAge(3600);
             response.addCookie(cookie);
-            String redirect = Utils.getCookie(request, "redirectURL");
-            if(redirect == null) return "redirect:/";
-            return "redirect:/"+redirect;
+            //String redirect = Utils.getCookie(request, "redirectURL");
+            //if(redirect == null) return "redirect:/";
+            return "redirect:/";
         }
     }
 

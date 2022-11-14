@@ -27,12 +27,7 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@PrepareForTest({
-        UUID.class,
-        UserController.class
-})
 
-@RunWith(PowerMockRunner.class)
 public class UserControllerTest {
 
     @Mock
@@ -56,8 +51,7 @@ public class UserControllerTest {
     @Mock
     private Model modelMock;
 
-    @Mock
-    private UUID uuidMock;
+
 
     private UserController userController;
 
@@ -68,24 +62,80 @@ public class UserControllerTest {
     }
 
     @Test
-    public void userSkills_user_is_null() {
-
-        PowerMockito.mockStatic(UUID.class);
-        PowerMockito.mockStatic(UserController.class);
-        UUID mock = PowerMockito.mock(UUID.class);
-        PowerMockito.when(UUID.fromString("11111111-1111-1111-1111-111111111111")).thenReturn(null);
+    public void userSkills_user1_is_null() {
 
         when(userServiceMock.getUserById(Matchers.any())).thenReturn(null);
 
-        String response = userController.userSkills(httpServletRequestMock, httpServletResponseMock, Matchers.any());
+        String response = userController.userSkills(httpServletRequestMock, httpServletResponseMock, UUID.randomUUID().toString());
 
         assertEquals("error", response);
     }
 
     @Test
-    public void userSkills_cookie_is_null() {}
+    public void userSkills1_cookie_is_null() {
+
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(new User());
+
+        when(securityMock.validateSession(httpServletRequestMock)).thenReturn(null);
+        String response = userController.userSkills(httpServletRequestMock, httpServletResponseMock, UUID.randomUUID().toString());
+
+        assertEquals("redirect:/login", response);
+    }
 
     @Test
-    public void userSkills_is_not_null() {}
+    public void userSkills1_is_not_null() {
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(new User());
+
+        when(securityMock.validateSession(httpServletRequestMock)).thenReturn(new Cookie("1","2"));
+        String response = userController.userSkills(httpServletRequestMock, httpServletResponseMock, UUID.randomUUID().toString());
+
+        assertEquals("addskills", response);
+    }
+
+    @Test
+    public void userSkills_user2_is_null() {
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(null);
+
+        String response = userController.userSkills(null, UUID.randomUUID().toString());
+
+        assertEquals("error", response);
+    }
+
+    @Test
+    public void userSkills_user2_is_not_null() {
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(new User());
+
+        String response = userController.userSkills(null, UUID.randomUUID().toString());
+
+        assertEquals("redirect:/", response);
+    }
+
+    @Test
+    public void newPersonalInfoGet_user_is_null() {
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(null);
+        String response = userController.newPersonalInfoGet(httpServletRequestMock, httpServletResponseMock, UUID.randomUUID().toString());
+        assertEquals("error", response);
+    }
+
+    @Test
+    public void newPersonalInfoGet_user_is_not_null() {
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(new User());
+        String response = userController.newPersonalInfoGet(httpServletRequestMock, httpServletResponseMock, UUID.randomUUID().toString());
+        assertEquals("newPersonalInfo", response);
+    }
+
+    @Test
+    public void newPersonalInfoPost_is_null() {
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(null);
+        String response = userController.newPersonalInfoPost(UUID.randomUUID().toString(), userMock, modelMock);
+        assertEquals("error", response);
+    }
+
+    @Test
+    public void newPersonalInfoPost_is_not_null() {
+        when(userServiceMock.getUserById(Matchers.any())).thenReturn(new User());
+        String response = userController.newPersonalInfoPost(UUID.randomUUID().toString(), userMock, modelMock);
+        assertEquals("redirect:/users/"+ userMock.getId() + "/skills", response);
+    }
 
 }

@@ -1,16 +1,11 @@
-package com.techentrance.techentrance.security;
+package com.techentrance.techentrance;
 
-import com.techentrance.techentrance.Utils;
-import com.techentrance.techentrance.controller.LoginController;
 import com.techentrance.techentrance.model.User;
 import com.techentrance.techentrance.security.Security;
 import com.techentrance.techentrance.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
@@ -20,14 +15,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.beans.Transient;
-import java.util.UUID;
-
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
-public class SecurityTest {
+public class UtilsTest {
 
     @Mock
     private UserService userServiceMock;
@@ -50,19 +41,19 @@ public class SecurityTest {
     @Mock
     private Model modelMock;
 
-    private Utils util;
+    //private Utils util;
     private String cookieStringMock;
-    private Cookie[] cookieArrayMock;
+
 
     @BeforeEach
     public void before() {
         MockitoAnnotations.initMocks(this);
-        util = new Utils();
+        //util = new Utils();
     }
 
     @Test
     public void authenticate_request_null() {
-        when(httpServletRequestMock.getCookies(Matchers.any())).thenReturn(null);
+        when(httpServletRequestMock.getCookies()).thenReturn(null);
         Object response = Utils.getCookie(httpServletRequestMock, cookieStringMock);
 
         assertNull(response);
@@ -70,14 +61,19 @@ public class SecurityTest {
 
     @Test
     public void authenticate_request_not_null() {
-        when(httpServletRequestMock.getCookies(Matchers.any())).thenReturn(cookieArrayMock);
+        Cookie[] cookies = new Cookie[2];
+        cookies[0] = new Cookie("name1", "value1");
+        cookies[1] = new Cookie("name2", "value2");
+
+        when(httpServletRequestMock.getCookies()).thenReturn(cookies);
 
 
-        Object response = Utils.getCookie(httpServletRequestMock, cookieStringMock);
+        Object response = Utils.getCookie(httpServletRequestMock, cookies[0].getName());
 
         assertNotNull(response);
     }
 
+    /*
     @Test
     public void authenticate_null_cookie_name() {
         when(httpServeletRequestMock.getCookie(Matcher.any())).thenReturn(cookieArrayMock);
@@ -88,6 +84,7 @@ public class SecurityTest {
 
 
     }
+    */
 
     
 }

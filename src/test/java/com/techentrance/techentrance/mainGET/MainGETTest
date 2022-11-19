@@ -1,4 +1,4 @@
-package com.techentrance.techentrance;
+package com.techentrance.techentrance.MainGET;
 
 import com.techentrance.techentrance.Utils;
 import com.techentrance.techentrance.controller.LoginController;

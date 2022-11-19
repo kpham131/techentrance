@@ -1,7 +1,6 @@
 package com.techentrance.techentrance;
 
 import com.techentrance.techentrance.model.User;
-import com.techentrance.techentrance.security.Security;
 import com.techentrance.techentrance.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,9 +21,6 @@ public class UtilsTest {
 
     @Mock
     private UserService userServiceMock;
-
-    @Mock
-    private Security securityMock;
 
     @Mock
     private HttpServletResponse httpServletResponseMock;

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Detail</title>
+    <title>Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700" rel="stylesheet">
@@ -134,7 +134,7 @@
 
 <body>
     <nav id="mainNavbar" class="navbar navbar-dark bg-dark navbar-expand-md">
-        <a href="/" class="navbar-brand">TechEntrance</a>
+        <a href="#" class="navbar-brand">TechEntrance</a>
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navLinks">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -160,24 +160,42 @@
 
         <div class="About">
             <ul>
-                <h1 th:text="${job.name}"></h1>
+                <h1>Profile</h1>
             </ul>
             <hr>
             <ul>
-                <h3>Company</h3>
-                <p th:text="${job.company}"></p>
+                <h3>Name</h3>
+                <!-- <p th:text="${user.firstName}" th:text="user.lastName"></p> -->
+                <p th:text="${user.firstName + ' ' +user.lastName}"></p>
+                <!-- <p th:text="${user.lastName}"></p> -->
             </ul>
             <ul>
-                <h3>Locations</h3>
-                <p th:text="${job.locations}"></p>
+                <h3>Phone Number</h3>
+                <p th:text="${user.phoneNumber}"></p>
             </ul>
             <ul>
-                <h3>Description</h3>
-                <p th:utext="${job.contents}"></p>
+                <h3>GPA</h3>
+                <p th:if="${user.gpa != ''}" th:text = "${user.gpa}"></p>
+            </ul>
+            <ul>
+                <h3>Location</h3>
+                <p th:if="${user.city != null && user.state != null}" th:text="${user.city + ', '+ user.state}"></p>
+            </ul>
+            <!-- <ul>
+                <h3>Desired Position</h3>
+                <li>N/A</li>
+            </ul> -->
+            <ul>
+                <h3>Skills and Certifications</h3>
+                <tr th:each="skill: ${skills}">
+                    <td th:if="${skill.skill != ''}" th:text="${'●'+skill.skill}" />
+                </tr>
             </ul>
             <div class="buttons">
-                <a class="btn btn-success" href="/" role="button" id="">Back</a>
-                <a class="btn btn-success" th:href="${job.ref}" target="_blank" rel="noopener noreferrer" role="button">Apply</a>
+                <!-- <button class="button-37" href="/editprofile" role="button" id="editProfile">Edit Profile</button> -->
+                <a class="btn btn-success" href="/editprofile" role="button" id="editProfile">Edit Profile</a>
+                <!-- <button class="button-37" href="/addskills" role="button">Add Skills</button> -->
+                <a class="btn btn-success" href="/addSkills" role="button" id="addSkills">Add Skills</a>
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 package com.techentrance.techentrance.controller;
 
 import com.techentrance.techentrance.MainGET;
+import com.techentrance.techentrance.Utils;
 import com.techentrance.techentrance.model.Job;
 import com.techentrance.techentrance.model.Skill;
 import com.techentrance.techentrance.service.JobService;
@@ -10,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +22,8 @@ import java.util.List;
 public class JobController {
     private final JobService jobService;
 
-    @GetMapping("/jobs/{jobId}")
-    public String jobDetailGet(@PathVariable("jobId") String jobId, Model model) {
+    @GetMapping("/users/{userId}/jobs/{jobId}")
+    public String jobDetailGet(HttpServletRequest request, HttpServletResponse response, @PathVariable("jobId") String jobId, Model model) {
 
         List<Skill> skills = new ArrayList<>();
         skills.add(new Skill("Python"));
@@ -35,6 +39,7 @@ public class JobController {
         job.setContents(job.getContents().replaceAll("<br>", ""));
         job.setContents(job.getContents().replaceAll("<li>", "<li>● "));
         model.addAttribute("job", job);
+
 
         return "jobDetail";
     }

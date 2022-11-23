@@ -53,6 +53,7 @@ public class HomeController {
         jobService.saveJobs(jobs);
 
         model.addAttribute("jobs", jobs);
+        model.addAttribute("userId", userId);
 
         return "index";
     }

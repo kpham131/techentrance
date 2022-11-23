@@ -1,6 +1,5 @@
 package com.techentrance.techentrance.controller;
 
-import com.techentrance.techentrance.Utils;
 import com.techentrance.techentrance.model.Skill;
 import com.techentrance.techentrance.model.User;
 import com.techentrance.techentrance.security.Security;
@@ -156,7 +155,7 @@ public class UserController {
         return "profile";
     }
 
-    private User userToFoundUser(User user, User foundUser) {
+    public User userToFoundUser(User user, User foundUser) {
         if(user.getFirstName()!=null && !user.getFirstName().isEmpty()) {
             foundUser.setFirstName(user.getFirstName());
         }

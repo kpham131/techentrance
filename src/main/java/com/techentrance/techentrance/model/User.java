@@ -27,8 +27,21 @@ public class User {
     @Type(type = "uuid-char")
     private UUID sessionId;
 
+    public User(UUID id, String firstName, String lastName, String phoneNumber, String gpa, String city, String state, String email, String password, UUID sessionId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.gpa = gpa;
+        this.city = city;
+        this.state = state;
+        this.email = email;
+        this.password = password;
+        this.sessionId = sessionId;
+    }
 
     public User() {}
+
 
     public User(String user, String password) {
         this.email = user;

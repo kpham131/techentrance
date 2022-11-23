@@ -2,12 +2,10 @@ package com.techentrance.techentrance;
 
 import java.util.*;
 import java.lang.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
 
+import com.techentrance.techentrance.model.Job;
+import com.techentrance.techentrance.model.Skill;
 import okhttp3.*;
-import org.json.simple.parser.JSONParser;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import java.util.regex.Matcher;
@@ -17,11 +15,20 @@ import java.lang.String;
 
 public class MainGET {
 
-    private static List<ApiObject> apiObjectsList = new ArrayList<>();
-
-    public static List<ApiObject> getList() {
+    public static List<Job> getJobsWithSkills(List<Skill> skills) {
+        List<Job> jobs = new ArrayList<>();
+        Set<String> jobSet = new HashSet<>();
         List<String> tokens = new ArrayList<String>();
-        tokens.add("Java");
+        for(Skill skill : skills) {
+            if (skill.getSkill().equals("C")){
+                tokens.add(" C");
+                tokens.add(" C ");
+            }
+            else {
+                tokens.add(skill.getSkill());
+            }
+
+        }
         String patternString = ".*\\b(" + String.join("|", tokens) + ")\\b.*";
         Pattern pattern = Pattern.compile(patternString);
 
@@ -52,6 +59,12 @@ public class MainGET {
                     JSONObject new_obj = (JSONObject) arr.get(i);
                     String content = new_obj.get("contents").toString();
                     String name = new_obj.get("name").toString();
+                    if(jobSet.contains(name)) {
+                        continue;
+                    }
+                    else {
+                        jobSet.add(name);
+                    }
                     String type = new_obj.get("type").toString();
                     String publication_date = new_obj.get("publication_date").toString();
                     String short_name = new_obj.get("short_name").toString();
@@ -61,7 +74,7 @@ public class MainGET {
                     JSONArray location_object = new_obj.getJSONArray("locations");
                     List<String> loc = new ArrayList();
                     for (int j = 0; j < location_object.length(); j++) {
-                        loc.add(location_object.get(j).toString());
+                        loc.add(location_object.getJSONObject(j).optString("name"));
                     }
                     JSONArray categories_object = new_obj.getJSONArray("categories");
                     List<String> cat = new ArrayList();
@@ -83,15 +96,16 @@ public class MainGET {
                     JSONObject company_object = (JSONObject) new_obj.get("company");
                     String company_name = company_object.get("name").toString();
                     Matcher matcher = pattern.matcher(content);
+                    String locations = loc.toString().replace("[", "");
+                    locations = locations.replace("]", "");
                     if (matcher.matches()) {
-                        ApiObject apiObject;
-                        apiObject = new ApiObject(content, name, type, publication_date, short_name, model_type, id, loc, cat, lev, tag, job_idLink, company_name);
-                        apiObjectsList.add(apiObject);
+                        Job job = new Job(id, content, name, locations, job_idLink, company_name);
+                        jobs.add(job);
                     }
                 }
                 count += 1;
             }
-            return apiObjectsList;
+            return jobs;
         }
         catch (Exception e)
         {
@@ -100,7 +114,10 @@ public class MainGET {
         }
     }
     public static void main(String[] args) {
-        getList();
+        List<Skill> skills = new ArrayList<>();
+        skills.add(new Skill("Java"));
+        skills.add(new Skill("C++"));
+        getJobsWithSkills(skills);
     }
 }
 

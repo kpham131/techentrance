@@ -141,13 +141,16 @@
         <div class="collapse navbar-collapse text-right" id="navLinks">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
+                <a href="/" class="nav-link">Home</a>
+              </li>
+            <li class="nav-item">
               <a href="/users/userId/profile" class="nav-link" id="profile">Profile</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">Saved Jobs</a>
+              <a href="#" class="nav-link" id="savedJobs">Saved Jobs</a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">About</a>
+              <a href="#" class="nav-link" id="about">About</a>
             </li>
             <li class="nav-item">
               <a href="/logout" class="nav-link">Logout</a>
@@ -176,13 +179,15 @@
                 <p th:utext="${job.contents}"></p>
             </ul>
             <div class="buttons">
-                <a class="btn btn-success" href="/" role="button" id="">Back</a>
+                <a class="btn btn-danger" href="/" role="button" id="">Back</a>
+                <a class="btn btn-primary" href="" role="button" id="saveJob">Save</a>
                 <a class="btn btn-success" th:href="${job.ref}" target="_blank" rel="noopener noreferrer" role="button">Apply</a>
             </div>
         </div>
     </div>
     <script src="http://localhost:8080/scripts/profileScript.js"></script>
     <script src="http://localhost:8080/scripts/navBarScript.js"></script>
+    <script src="http://localhost:8080/scripts/jobDetail.js"></script>
     
 </body>
 

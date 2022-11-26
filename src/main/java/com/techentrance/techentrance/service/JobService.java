@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -27,4 +28,7 @@ public class JobService {
         return jobRepository.findById(id);
     }
 
+    public List<Job> getJobsByUserId(UUID userId) {
+        return jobRepository.findByUserId(userId);
+    }
 }

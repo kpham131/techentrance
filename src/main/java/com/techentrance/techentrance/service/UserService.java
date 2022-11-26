@@ -1,10 +1,9 @@
 package com.techentrance.techentrance.service;
 
 
-import com.techentrance.techentrance.model.Skill;
-import com.techentrance.techentrance.model.User;
-import com.techentrance.techentrance.model.UserSkill;
+import com.techentrance.techentrance.model.*;
 import com.techentrance.techentrance.repo.SkillRepository;
+import com.techentrance.techentrance.repo.UserJobRepository;
 import com.techentrance.techentrance.repo.UserRepository;
 import com.techentrance.techentrance.repo.UserSkillRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final SkillRepository skillRepository;
     private final UserSkillRepository userSkillRepository;
+    private final UserJobRepository userJobRepository;
 
 
     public User saveUser(User user) {
@@ -49,5 +49,13 @@ public class UserService {
         }
     }
 
+    public void saveJob(Job job, User user) {
+        UserJob userJob = new UserJob(job.getId(), user.getId());
+        userJobRepository.save(userJob);
+    }
 
+
+    public void unsaveJob(Job job, User user) {
+        userJobRepository.deleteUserJobWithUserIdAndJobId(user.getId(), job.getId());
+    }
 }

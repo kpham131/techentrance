@@ -1,8 +1,10 @@
 package com.techentrance.techentrance.controller;
 
+import com.techentrance.techentrance.model.Job;
 import com.techentrance.techentrance.model.Skill;
 import com.techentrance.techentrance.model.User;
 import com.techentrance.techentrance.security.Security;
+import com.techentrance.techentrance.service.JobService;
 import com.techentrance.techentrance.service.SkillService;
 import com.techentrance.techentrance.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class UserController {
     private final Security security;
     private final UserService userService;
     private final SkillService skillService;
+    private final JobService jobService;
 
     @GetMapping("/users/{userid}/skills")
     public String userSkills(HttpServletRequest request, HttpServletResponse response, @PathVariable("userid") String userId, Model model) {
@@ -187,4 +190,60 @@ public class UserController {
         }
         return foundUser;
     }
+
+    @GetMapping("/users/{userid}/jobs/{jobId}/save")
+    public String saveJob(HttpServletResponse response, @PathVariable("userid") String userId, @PathVariable("jobId") String jobId, Model model) {
+        UUID uuidUserId = UUID.fromString(userId);
+        User user = userService.getUserById(uuidUserId);
+
+        Job job = jobService.getJobById(jobId);
+
+        if(user==null || job==null) return "error";
+        Cookie userIdCookie = new Cookie("userId", userId);
+        userIdCookie.setMaxAge(3600);
+        response.addCookie(userIdCookie);
+
+        userService.saveJob(job, user);
+
+        return "redirect:/users/"+userId+"/jobs/"+jobId;
+    }
+
+    @GetMapping("/users/{userid}/jobs/{jobId}/unsave")
+    public String unsaveJob(HttpServletResponse response, @PathVariable("userid") String userId, @PathVariable("jobId") String jobId, Model model) {
+        UUID uuidUserId = UUID.fromString(userId);
+        User user = userService.getUserById(uuidUserId);
+
+        Job job = jobService.getJobById(jobId);
+
+        if(user==null || job==null) return "error";
+        Cookie userIdCookie = new Cookie("userId", userId);
+        userIdCookie.setMaxAge(3600);
+        response.addCookie(userIdCookie);
+
+        userService.unsaveJob(job, user);
+
+        return "redirect:/users/"+userId+"/jobs/"+jobId;
+    }
+
+
+    @GetMapping("/users/{userid}/savedJobs")
+    public String savedJobs(HttpServletResponse response, @PathVariable("userid") String userId, Model model) {
+        UUID uuidUserId = UUID.fromString(userId);
+        User user = userService.getUserById(uuidUserId);
+
+
+        if(user==null) return "error";
+        Cookie userIdCookie = new Cookie("userId", userId);
+        userIdCookie.setMaxAge(3600);
+        response.addCookie(userIdCookie);
+
+        List<Job> jobs = jobService.getJobsByUserId(user.getId());
+
+        model.addAttribute("jobs", jobs);
+        model.addAttribute("userId", userId);
+
+        return "savedJobs";
+    }
+
+
 }

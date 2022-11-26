@@ -1,7 +1,9 @@
 package com.techentrance.techentrance.controller;
 import com.techentrance.techentrance.Utils;
 import com.techentrance.techentrance.model.User;
+import com.techentrance.techentrance.repo.UserJobRepository;
 import com.techentrance.techentrance.security.Security;
+import com.techentrance.techentrance.service.JobService;
 import com.techentrance.techentrance.service.SkillService;
 import com.techentrance.techentrance.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,14 +53,15 @@ public class UserControllerTest {
     @Mock
     private Model modelMock;
 
-
+    @Mock
+    private JobService jobService;
 
     private UserController userController;
 
     @BeforeEach
     public void before() {
         MockitoAnnotations.initMocks(this);
-        userController = new UserController(securityMock, userServiceMock, skillServiceMock);
+        userController = new UserController(securityMock, userServiceMock, skillServiceMock, jobService );
     }
 
     @Test

@@ -23,6 +23,7 @@ public class UserJob implements Serializable {
 
     public UserJob(String job_id, UUID user_Id) {
         this.job_id = job_id;
+        this.user_id = user_Id;
     }
 
     public String getJob_id() {

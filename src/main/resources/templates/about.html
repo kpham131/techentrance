@@ -163,43 +163,10 @@
 
         <div class="About">
             <ul>
-                <h1>Profile</h1>
+                <h1>About Us</h1>
             </ul>
             <hr>
-            <ul>
-                <h3>Name</h3>
-                <!-- <p th:text="${user.firstName}" th:text="user.lastName"></p> -->
-                <p th:text="${user.firstName + ' ' +user.lastName}"></p>
-                <!-- <p th:text="${user.lastName}"></p> -->
-            </ul>
-            <ul>
-                <h3>Phone Number</h3>
-                <p th:text="${user.phoneNumber}"></p>
-            </ul>
-            <ul>
-                <h3>GPA</h3>
-                <p th:if="${user.gpa != ''}" th:text = "${user.gpa}"></p>
-            </ul>
-            <ul>
-                <h3>Location</h3>
-                <p th:if="${user.city != null && user.state != null}" th:text="${user.city + ', '+ user.state}"></p>
-            </ul>
-            <!-- <ul>
-                <h3>Desired Position</h3>
-                <li>N/A</li>
-            </ul> -->
-            <ul>
-                <h3>Skills and Certifications</h3>
-                <tr th:each="skill: ${skills}">
-                    <td th:if="${skill.skill != ''}" th:text="${'●'+skill.skill}" />
-                </tr>
-            </ul>
-            <div class="buttons">
-                <!-- <button class="button-37" href="/editprofile" role="button" id="editProfile">Edit Profile</button> -->
-                <a class="btn btn-success" href="/editprofile" role="button" id="editProfile">Edit Profile</a>
-                <!-- <button class="button-37" href="/addskills" role="button">Add Skills</button> -->
-                <a class="btn btn-success" href="/addSkills" role="button" id="addSkills">Add Skills</a>
-            </div>
+            <p>sdjdhkejklejfkwejfkwqejnf</p>
         </div>
     </div>
     <script src="http://localhost:8080/scripts/profileScript.js"></script>

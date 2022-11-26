@@ -1,6 +1,7 @@
 package com.techentrance.techentrance.controller;
 
 import com.techentrance.techentrance.repo.SkillRepository;
+import com.techentrance.techentrance.repo.UserJobRepository;
 import com.techentrance.techentrance.repo.UserRepository;
 import com.techentrance.techentrance.repo.UserSkillRepository;
 import com.techentrance.techentrance.security.Security;
@@ -45,7 +46,10 @@ public class HomeControllerIntegrationTest {
     @Mock
     private JobService jobServiceMock;
 
-    private UserService userService = new UserService(userRepository, skillRepository, userSkillRepository);
+    @Mock
+    private UserJobRepository userJobRepositoryMock;
+
+    private UserService userService = new UserService(userRepository, skillRepository, userSkillRepository, userJobRepositoryMock);
 
 
     private Security security = new Security(userService);

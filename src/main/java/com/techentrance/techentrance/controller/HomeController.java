@@ -57,4 +57,17 @@ public class HomeController {
 
         return "index";
     }
+
+
+    @GetMapping("/users/{userid}/about")
+    public String about(HttpServletRequest request, HttpServletResponse response, @PathVariable("userid") String userId, Model model) {
+        Cookie cookie = security.validateSession(request);
+        if(cookie==null){
+            return "redirect:/login";
+        }
+
+        response.addCookie(cookie);
+
+        return "about";
+    }
 }

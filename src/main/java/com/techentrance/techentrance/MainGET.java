@@ -34,14 +34,18 @@ public class MainGET {
 
         try {
             int count = 1;
-            while(count <= 5) {
+            while(count <= 15) {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 MediaType mediaType = MediaType.parse("text/plain");
                 RequestBody body = RequestBody.create(mediaType, "");
                 String sampleUrl = "https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&location=USA&page="+count+"&descending=false";
+//                Request request = new Request.Builder()
+//                        .url("https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&location=USA&page=1&descending=false")  //https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&page=1&descending=false
+//                        .method("GET", null)
+//                        .build();
                 Request request = new Request.Builder()
-                        .url("https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&location=USA&page=1&descending=false")  //https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&page=1&descending=false
+                        .url(sampleUrl)  //https://www.themuse.com/api/public/jobs?category=Software%20Engineering&level=Internship&page=1&descending=false
                         .method("GET", null)
                         .build();
                 Response response = client.newCall(request).execute();

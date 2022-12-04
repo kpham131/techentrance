@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 
 @Component
@@ -15,6 +17,7 @@ public class Security {
     private final UserService userService;
 
     public UUID authenticate(User user) {
+        user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().concat(user.getEmail()).getBytes(StandardCharsets.UTF_8)));
         User foundUser = userService.getUserByEmail(user.getEmail());
         if(foundUser==null) {
             return null;

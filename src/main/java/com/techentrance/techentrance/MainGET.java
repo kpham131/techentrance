@@ -29,6 +29,9 @@ public class MainGET {
             }
 
         }
+        if(tokens.isEmpty()){
+            tokens.add(" ");
+        }
         String patternString = ".*\\b(" + String.join("|", tokens) + ")\\b.*";
         Pattern pattern = Pattern.compile(patternString);
 
@@ -102,10 +105,18 @@ public class MainGET {
                     Matcher matcher = pattern.matcher(content);
                     String locations = loc.toString().replace("[", "");
                     locations = locations.replace("]", "");
-                    if (matcher.matches()) {
-                        Job job = new Job(id, content, name, locations, job_idLink, company_name);
-                        jobs.add(job);
+                    for(String token : tokens) {
+                        if (content.contains(token)){
+                            Job job = new Job(id, content, name, locations, job_idLink, company_name);
+                            jobs.add(job);
+                            break;
+                        }
+
                     }
+//                    if (matcher.matches()) {
+//                        Job job = new Job(id, content, name, locations, job_idLink, company_name);
+//                        jobs.add(job);
+//                    }
                 }
                 count += 1;
             }

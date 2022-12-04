@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Job Detail</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,700" rel="stylesheet">
@@ -163,15 +163,31 @@
 
         <div class="About">
             <ul>
-                <h1>About Us</h1>
+                <h1 th:text="${job.name}"></h1>
             </ul>
             <hr>
-            <p>We here at Tech Entrance have a passion for helping people.  We formed in 2022 with the idea of enabling our fellow and future computer science graduates to find jobs.  From our experience, finding jobs can be difficult and stressful, especially when you may need the income in a short time frame.  Too much stress in this case can lead to even less job searching efficiency followed by even more stress in a vicious cycle.  Sometimes it can seem as if there are almost too many options to search through.  This is where Tech Entrance comes in; we wanted to streamline this entire process by finding only the jobs that are relevant to recent graduates.  In this way we can help those who may be like us find the first step towards a better future, and use the knowledge we learned while in school to give back to the community we are a part of.</p>
-            <p>- Zach, Raghav, Khoa, Nick, and Jacob</p>
+            <ul>
+                <h3>Company</h3>
+                <p th:text="${job.company}"></p>
+            </ul>
+            <ul>
+                <h3>Locations</h3>
+                <p th:text="${job.locations}"></p>
+            </ul>
+            <ul>
+                <h3>Description</h3>
+                <p th:utext="${job.contents}"></p>
+            </ul>
+            <div class="buttons">
+                <a class="btn btn-danger" href="/" role="button" id="">Back</a>
+                <a class="btn btn-primary" href="" role="button" id="unsaveJob">Unsave</a>
+                <a class="btn btn-success" th:href="${job.ref}" target="_blank" rel="noopener noreferrer" role="button">Apply</a>
+            </div>
         </div>
     </div>
     <script src="http://localhost:8080/scripts/profileScript.js"></script>
     <script src="http://localhost:8080/scripts/navBarScript.js"></script>
+    <script src="http://localhost:8080/scripts/jobDetailSaved.js"></script>
     
 </body>
 

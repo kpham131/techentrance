@@ -7,6 +7,7 @@ import com.techentrance.techentrance.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 
@@ -91,6 +92,7 @@ public class LoginControllerTest {
         String response = loginController.login(httpServletRequestMock, httpServletResponseMock, userMock, modelMock);
         assertEquals("redirect:/", response);
     }
+
 
     @Test
     public void signUpView_not_null() {

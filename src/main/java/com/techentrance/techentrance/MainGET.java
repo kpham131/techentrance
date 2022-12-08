@@ -52,7 +52,7 @@ public class MainGET {
                 if(response.code() != 200)
                 {
                     System.out.println("bad request");
-                    System.exit(0);
+                    return null;
                 }
                 String jsonData = response.body().string();
                 //jsonData = jsonData.substring(1, jsonData.length() - 1);

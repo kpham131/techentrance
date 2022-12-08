@@ -1,6 +1,9 @@
 package com.techentrance.techentrance.controller;
 
 
+import com.techentrance.techentrance.MainGET;
+import com.techentrance.techentrance.model.Job;
+import com.techentrance.techentrance.model.Skill;
 import com.techentrance.techentrance.model.User;
 import com.techentrance.techentrance.security.Security;
 import com.techentrance.techentrance.service.JobService;
@@ -16,6 +19,8 @@ import static org.junit.Assert.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -95,13 +100,29 @@ public class HomeControllerTest {
     public void homeUser_cookie_is_not_null() {
         // Arrange
         when(securityMock.validateSession(any())).thenReturn(new Cookie("sessionId", java.util.UUID.randomUUID().toString()));
+        List<Skill> list = new ArrayList<>();
+        //Skill s = new Skill()
+        list.add(new Skill("Java"));
+        when(skillServiceMock.getSkillsByUserId(UUID.randomUUID())).thenReturn(list);
 
+        when(MainGET.getJobsWithSkills(list)).thenReturn(new ArrayList<Job>());
         // ACT
-        String response = homeController.homeUser(null, httpServletResponseMock, "userId", null);
+        String response = homeController.homeUser(null, httpServletResponseMock, UUID.randomUUID().toString(), null);
 
         // ASSERT
         assertEquals("index", response);
     }
 
-
+    @Test
+    public void about_null() {
+        when(securityMock.validateSession(any())).thenReturn(null);
+        String response = homeController.about(null, httpServletResponseMock, UUID.randomUUID().toString(), null);
+        assertEquals("redirect:/login", response);
+    }
+    @Test
+    public void about_not_null() {
+        when(securityMock.validateSession(any())).thenReturn(new Cookie("name", "12"));
+        String response = homeController.about(null, httpServletResponseMock, UUID.randomUUID().toString(), null);
+        assertEquals("about", response);
+    }
 }

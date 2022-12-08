@@ -72,9 +72,9 @@
                 </svg> -->
                             <h3 class="card-title">TechEntrance</h3>
                             <form action="http://localhost:8080/users/userid/personalInfo" method="POST" id="form">
-                                <input type="text" name="firstName" id="" class="form-control my-4 py-2" th:value="${user.firstName}" placeholder="First Name" />
-                                <input type="text" name="lastName" id="" class="form-control my-4 py-2" th:value="${user.lastName}" placeholder="Last Name" />
-                                <input type="text" name="phoneNumber" id="" class="form-control my-4 py-2" th:value="${user.phoneNumber}" placeholder="Phone Number" />
+                                <input type="text" name="firstName" id="" class="form-control my-4 py-2" th:value="${user.firstName}" placeholder="First Name" required/>
+                                <input type="text" name="lastName" id="" class="form-control my-4 py-2" th:value="${user.lastName}" placeholder="Last Name" required/>
+                                <input type="text" name="phoneNumber" pattern="[0-9]{10}" title="10-digit phone number. Example: 7039931000" id="" class="form-control my-4 py-2" th:value="${user.phoneNumber}" placeholder="Phone Number" required/>
                                 <input type="text" name="gpa" id="" class="form-control my-4 py-2" th:value="${user.gpa}" placeholder="GPA" />
                                 <input type="text" name="city" id="" class="form-control my-4 py-2" th:value="${user.city}" placeholder="City" />
                                 <input type="text" name="state" id="" class="form-control my-4 py-2" th:value="${user.state}" placeholder="State" />

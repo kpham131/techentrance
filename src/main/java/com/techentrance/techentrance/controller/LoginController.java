@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 
 
@@ -74,6 +76,7 @@ public class LoginController {
 //            return signUpView();
             return "signuperror";
         }
+        user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().concat(user.getEmail()).getBytes(StandardCharsets.UTF_8)));
 
         // add to model to send to front end
         model.addAttribute("user", user);
@@ -83,6 +86,7 @@ public class LoginController {
         Cookie cookie = new Cookie("SessionId", sessionId.toString());
         cookie.setMaxAge(3600);
         response.addCookie(cookie);
+
 
         userService.saveUser(user);
         return "redirect:/users/"+ user.getId() + "/personalInfo";

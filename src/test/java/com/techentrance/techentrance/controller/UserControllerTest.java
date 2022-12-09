@@ -1,5 +1,6 @@
 package com.techentrance.techentrance.controller;
 import com.techentrance.techentrance.Utils;
+import com.techentrance.techentrance.model.Job;
 import com.techentrance.techentrance.model.User;
 import com.techentrance.techentrance.repo.UserJobRepository;
 import com.techentrance.techentrance.security.Security;
@@ -219,6 +220,51 @@ public class UserControllerTest {
 
     }
 
+    @Test
+    public void saveJob_null() {
+        when(userServiceMock.getUserById(UUID.randomUUID())).thenReturn(null);
+        when(jobService.getJobById(any())).thenReturn(new Job());
+        String response = userController.saveJob(httpServletResponseMock, UUID.randomUUID().toString(), "", modelMock);
+        assertEquals("error", response);
+    }
+
+    @Test
+    public void saveJob_not_null() {
+        when(userServiceMock.getUserById(any())).thenReturn(userMock);
+        when(jobService.getJobById(any())).thenReturn(new Job());
+        String response = userController.saveJob(httpServletResponseMock, UUID.randomUUID().toString(), "", modelMock);
+        assertNotEquals("error", response);
+    }
+
+    @Test
+    public void unsaveJob_null() {
+        when(userServiceMock.getUserById(UUID.randomUUID())).thenReturn(new User());
+        when(jobService.getJobById(any())).thenReturn(new Job());
+        String response = userController.unsaveJob(httpServletResponseMock, UUID.randomUUID().toString(), "any", modelMock);
+        assertEquals("error", response);
+    }
+
+    @Test
+    public void unsaveJob_not_null() {
+        when(userServiceMock.getUserById(any())).thenReturn(new User());
+        when(jobService.getJobById(any())).thenReturn(new Job());
+        String response = userController.unsaveJob(httpServletResponseMock, UUID.randomUUID().toString(), "any", modelMock);
+        assertNotEquals("error", response);
+    }
+
+    @Test
+    public void savedJobs_null() {
+        when(userServiceMock.getUserById(any())).thenReturn(null);
+        String response = userController.savedJobs(httpServletResponseMock, UUID.randomUUID().toString(), modelMock);
+        assertEquals("error", response);
+    }
+
+    @Test
+    public void savedJobs_not_null() {
+        when(userServiceMock.getUserById(any())).thenReturn(new User());
+        String response = userController.savedJobs(httpServletResponseMock, UUID.randomUUID().toString(), modelMock);
+        assertEquals("savedJobs", response);
+    }
 
 
 }

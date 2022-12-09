@@ -8,19 +8,14 @@ import com.techentrance.techentrance.security.Security;
 import com.techentrance.techentrance.service.JobService;
 import com.techentrance.techentrance.service.SkillService;
 import com.techentrance.techentrance.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-//import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class HomeControllerIntegrationTest {
@@ -57,8 +52,6 @@ public class HomeControllerIntegrationTest {
 
     @Test
     public void homeTest1() {
-        //homeController = new HomeController(security);
-        //Cookie cookie = security.validateSession(httpServletRequest);
         when(httpServletRequest.getCookies()).thenReturn(null);
         String response = homeController.home(httpServletRequest, httpServletResponse);
         assertEquals("redirect:/login", response);
